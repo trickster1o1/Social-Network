@@ -1,6 +1,5 @@
 import Header from './Header';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 function Home() {
     let user = JSON.parse(localStorage.getItem('user-info'));
     
@@ -24,7 +23,10 @@ function Home() {
             <div className='inner-container'>
                 <div className='left-nav'>
                     <div>
-                        <nav>aarko</nav>
+                        <nav className='active-nav'>Home</nav>
+                        <Link to='/addpost'><nav>Explore</nav></Link>
+                        <nav>Notification</nav>
+                        <nav>Profile</nav>
                     </div>
                     <div className='usr-lnk-exp' id='pop-out'>
                         <nav onClick={logout}>Logout</nav>
