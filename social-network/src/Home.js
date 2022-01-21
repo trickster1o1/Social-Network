@@ -1,13 +1,39 @@
 import Header from './Header';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 function Home() {
+    let user = JSON.parse(localStorage.getItem('user-info'));
+    
+    let pop = () => {
+        if(document.getElementById('pop-out').style.display === ''){
+            document.getElementById('pop-out').style.display = 'block';
+        }else if(document.getElementById('pop-out').style.display === 'none'){
+            document.getElementById('pop-out').style.display = 'block';
+        } else {
+            document.getElementById('pop-out').style.display = 'none';
+        }
+
+    }
+    function logout() {
+        localStorage.clear();
+        window.location.reload();
+    }
     return (
         <div className="container">
             <Header />
             <div className='inner-container'>
                 <div className='left-nav'>
-                <Link to='/signup'><nav>Signup</nav></Link>
-                    <nav>Login</nav>
+                    <div>
+                        <nav>aarko</nav>
+                    </div>
+                    <div className='usr-lnk-exp' id='pop-out'>
+                        <nav onClick={logout}>Logout</nav>
+                    </div>
+                    <div className='usr-lnk'>
+                        {user ? <nav id='popper' onClick={pop} >{user.unm}</nav> :
+                            <Link to='/login'><nav>Login</nav></Link>
+                        }
+                    </div>
                 </div>
                 <main>
                     Main Cont
