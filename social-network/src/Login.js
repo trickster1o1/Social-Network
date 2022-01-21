@@ -27,14 +27,20 @@ function Login() {
         })
         .catch((error)=>console.log(error));
     }
+
+    function triggerLogin(e) {
+        if(e.key === 'Enter') {
+            login();
+        }
+    }
     return(
         <div>
             <div className="container">
             <Header />
             <div className="post-form">
                 <div className="form-header"><h2>LogIn</h2></div>
-                <input type='text' placeholder="Username" onChange={(e)=>setUnm(e.target.value)} />
-                <input type='password' placeholder="Password" onChange={(e)=>setPwd(e.target.value)} />
+                <input type='text' placeholder="Username" onChange={(e)=>setUnm(e.target.value)} onKeyPress={(e)=>triggerLogin(e)} />
+                <input type='password' placeholder="Password" onChange={(e)=>setPwd(e.target.value)} onKeyPress={(e)=>triggerLogin(e)} />
                 <div className="bton-holder">
                     <button className="btn btn-secondary" onClick={login}>Login</button>
                 </div>

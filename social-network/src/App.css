@@ -3,17 +3,21 @@
   padding: 0px;
 } .navB ul {
   display: flex;
-  justify-content: center;
+  padding:0 0 0 10px;
 } .navB li {
   list-style-type: none;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   height: 5.5vh;
+  width: 100%;
 } .navB {
   display: flex;
   height: 5.5vh;
   justify-content: flex-start;
+} .m-logo {
+  height:1em;
+  width: auto;
 }
 
 .inner-container {
@@ -24,13 +28,19 @@
   width: 15vw;
   display: flex;
   flex-direction: column;
+  justify-content: flex-start;
+} .left-nav {
+  position: relative;
+} nav {
+  cursor: pointer;
 } .inner-container main {
   width: 35vw;
 } .inner-container nav {
   display: flex;
   height: 3em;
   align-items: center;
-  padding: 0 15px;
+  padding: 0 20px 0 10px;
+  border-radius: 20px;
   width: fit-content;
 } a {
   text-decoration: none;
@@ -57,4 +67,13 @@
 } .form-header {
   width: 50%;
   padding-left: .5em;
+} .usr-lnk {
+  position: absolute;
+  bottom: 0;
+} .usr-lnk-exp {
+  position: absolute;
+  bottom: 3.5em;
+  box-shadow: 1px 1px 14px 1px black;
+  width: 70%;
+  display: none;
 }

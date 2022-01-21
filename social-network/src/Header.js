@@ -11,7 +11,7 @@ function Header() {
         <div className="navB">
             <nav className="navB-container">
                 <ul>
-                    {user ? <li className="navB-content" onClick={logout}>{user.unm}</li> : <Link to='/'><li className="navB-content">T</li></Link>}
+                    {user ? <li className="navB-content" onClick={logout}>{user.unm}</li> : <Link to='/'><li className="navB-content"><img className="m-logo" src='/Tlog.png' /></li></Link>}
                     
                 </ul>
             </nav>
