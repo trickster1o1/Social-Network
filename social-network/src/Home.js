@@ -1,8 +1,22 @@
 import Header from './Header';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import Profile from './Profile';
+import { useState, useEffect } from 'react';
 function Home() {
     let user = JSON.parse(localStorage.getItem('user-info'));
-    
+    let navigate = useNavigate();
+    let [userPost, setUserPost] = useState([]);
+    let [feeds, setFeeds] = useState([]);
+
+    useEffect(() => {
+        let getFeeds = async () => {
+            await fetch('http://127.0.0.1:8000/api/feeds')
+            .then((res)=>res.json())
+            .then((r)=>{setFeeds(r)})
+            .catch((e)=>console.log(e));
+        }
+        getFeeds();
+    }, []);
     let pop = () => {
         if(document.getElementById('pop-out').style.display === ''){
             document.getElementById('pop-out').style.display = 'block';
@@ -17,16 +31,40 @@ function Home() {
         localStorage.clear();
         window.location.reload();
     }
+
+    function viewFeed() {
+        document.getElementById('profile-cont').style.display = 'none';
+        document.getElementById('main-cont').style.display = 'block';
+        document.getElementById('profile').classList.remove('active-nav');
+        document.getElementById('notif').classList.remove('active-nav');
+        document.getElementById('home').classList.add('active-nav');
+    }
+    async function viewProfile() {
+        document.getElementById('profile-cont').style.display = 'block';
+        document.getElementById('main-cont').style.display = 'none';
+        document.getElementById('profile').classList.add('active-nav');
+        document.getElementById('home').classList.remove('active-nav');
+        document.getElementById('notif').classList.remove('active-nav');
+
+        if(!user) {
+            navigate('/login');
+        } else {
+            await fetch('http://127.0.0.1:8000/api/u/'+user.unm)
+            .then((res)=>res.json())
+            .then((r)=>setUserPost(r))
+            .catch((e)=>console.log(e));
+        }
+    }
     return (
         <div className="container">
             <Header />
             <div className='inner-container'>
                 <div className='left-nav'>
                     <div>
-                        <nav className='active-nav'>Home</nav>
-                        <Link to='/addpost'><nav>Explore</nav></Link>
-                        <nav>Notification</nav>
-                        <nav>Profile</nav>
+                        <nav className='active-nav' onClick={viewFeed} id='home'>Home</nav>
+                        <Link to='/addpost'><nav id='exp'>Explore</nav></Link>
+                        <nav id='notif'>Notification</nav>
+                        <nav onClick={viewProfile} id='profile'>Profile</nav>
                     </div>
                     <div className='usr-lnk-exp' id='pop-out'>
                         <nav onClick={logout}>Logout</nav>
@@ -38,7 +76,41 @@ function Home() {
                     </div>
                 </div>
                 <main>
-                    Main Cont
+                    <div className='in-cont' id='main-cont'>
+                        {
+                            feeds && feeds.msg === 'success' ?
+                            feeds.posts.map((post) => 
+                            !user ? 
+                            <div key={post.id} className="post-container">
+                                <div className="post-head">
+                                    {post.user.name}
+                                </div>
+                                <div className="post-body">
+                                    <span className="post-title">{post.title}</span>
+                                    {post.post}
+                                </div>
+                            </div> :
+                            user && user.id !== post.user.id ?
+                            <div key={post.id} className="post-container">
+                                <div className="post-head">
+                                    {post.user.name}
+                                </div>
+                                <div className="post-body">
+                                    <span className="post-title">{post.title}</span>
+                                    {post.post}
+                                </div>
+                            </div>
+                            : null
+                            )
+                            : feeds && feeds.msg === 'error404' 
+                            ? feeds.msg : 'loading...'
+                        }
+                        
+                    </div>
+                    <div className='in-cont' id='profile-cont'>
+                        {userPost && userPost.msg === 'success' ? <Profile uPost = {userPost} userInfo = {user} /> : userPost.msg === 'error404' ? 'server down' : 'Loading...' }
+                        
+                    </div>
                 </main>
                 <div className='right-nav'>
                     <nav>That</nav>

@@ -25,7 +25,13 @@ function AddPost() {
                 }
             })
             .then((res)=>res.json())
-            .then((r)=>console.log(r))
+            .then((r)=>{
+                if(r.msg === 'success') {
+                    navigate('/');
+                } else {
+                    alert(r.msg);
+                }
+            })
             .catch((e)=>console.log(e));
         }
         

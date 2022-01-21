@@ -20,5 +20,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('signup',[App\Http\Controllers\UserController::class,'signUp']);
 Route::post('login',[App\Http\Controllers\UserController::class,'login']);
+Route::get('feeds',[App\Http\Controllers\UserController::class,'newsFeed']);
+Route::get('u/{user}',[App\Http\Controllers\UserController::class,'profileView']);
 
 Route::post('addpost/{user}',[App\Http\Controllers\PostController::class,'createPost']);
