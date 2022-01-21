@@ -37,4 +37,24 @@ class UserController extends Controller
             return ['msg'=>'success','user'=>$user];
         }
     }
+
+    function profileView($user) {
+        $u = \App\Models\User::where('unm',$user)->first();
+        if($u) {
+            return ['msg'=>'success', 'posts'=>$u->post];
+        } else {
+            return ['msg'=>'error404'];
+        }
+    }
+
+    function newsFeed() {
+        $posts = \App\Models\Post::all();
+
+        if($posts) {
+            return ['msg'=>'success', 'posts'=>$posts->load('user')];
+        } else {
+            return ['msg'=>'error404'];
+        }
+    }
+
 }
