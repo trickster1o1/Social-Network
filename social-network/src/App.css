@@ -14,7 +14,9 @@
 } .navB {
   display: flex;
   height: 5.5vh;
+  width: 69%;
   justify-content: flex-start;
+  position: fixed;
 } .m-logo {
   height:1em;
   width: auto;
@@ -24,6 +26,7 @@
   display: flex;
   justify-content: space-between;
   min-height: 93vh;
+  padding-top: 3.5em;
 } .inner-container .left-nav , .inner-container .right-nav {
   width: 15vw;
   display: flex;
@@ -31,6 +34,9 @@
   justify-content: flex-start;
 } .left-nav {
   position: relative;
+  font-size: 16pt;
+} .active-nav{
+  font-weight: bold;
 } nav {
   cursor: pointer;
 } .inner-container main {
@@ -53,7 +59,7 @@
     width: 100%;
     justify-content: center;
     min-height: 50vh;
-} .post-form input {
+} .post-form input , textarea {
   width: 50%;
   border: 1px solid black;
   padding: 10px;
@@ -73,7 +79,7 @@
 } .usr-lnk-exp {
   position: absolute;
   bottom: 3.5em;
-  box-shadow: 1px 1px 14px 1px black;
+  box-shadow: 1px 1px 10px 1px black;
   width: 70%;
   display: none;
 }
