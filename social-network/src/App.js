@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import './mobile.css';
 import { Route , BrowserRouter , Routes } from 'react-router-dom';
 import Login from './Login';
 import SignUp from './SignUp';

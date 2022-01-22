@@ -1,0 +1,7 @@
+@media screen and (max-width: 800px) {
+    .inner-container .left-nav , .inner-container .right-nav {
+        display: none;
+    } main {
+        flex-grow: 1;
+    }
+}

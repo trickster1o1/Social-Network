@@ -1,6 +1,6 @@
 import Header from './Header';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 function Login() {
     let [unm, setUnm] = useState('');
     let [pwd, setPwd] = useState('');
@@ -42,6 +42,7 @@ function Login() {
                 <input type='text' placeholder="Username" onChange={(e)=>setUnm(e.target.value)} onKeyPress={(e)=>triggerLogin(e)} />
                 <input type='password' placeholder="Password" onChange={(e)=>setPwd(e.target.value)} onKeyPress={(e)=>triggerLogin(e)} />
                 <div className="bton-holder">
+                <span><Link to='/signup'>Dont have an account, Register</Link></span>
                     <button className="btn btn-secondary" onClick={login}>Login</button>
                 </div>
             </div>
