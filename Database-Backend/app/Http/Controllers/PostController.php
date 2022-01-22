@@ -11,8 +11,9 @@ class PostController extends Controller
         $u = \App\Models\User::findOrFail($user);
         if($u) {
             $u->post()->create([
-                'title'=>$req->title,
-                'post'=>$req->post
+                'title'=>$req->input('title'),
+                'post'=>$req->input('post'),
+                'file'=>$req->file('file')->store('uploads','public')
             ]);
             return ['msg'=>'success'];
         } else {

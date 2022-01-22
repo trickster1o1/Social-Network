@@ -10,6 +10,9 @@ function Profile(props) {
                         <div className="post-body">
                             <span className="post-title">{post.title}</span>
                             {post.post}
+                            <div className="post-img-cont">
+                                <img src={'http://127.0.0.1:8000/storage/'+post.file} alt='notAvailable...' />
+                            </div>
                         </div>
                     </div>
                 )

@@ -48,12 +48,12 @@ class UserController extends Controller
     }
 
     function newsFeed() {
-        $posts = \App\Models\Post::all();
+        $posts = \App\Models\Post::orderBy('id','desc')->get();
 
-        if($posts) {
+        if(count($posts) > 0) {
             return ['msg'=>'success', 'posts'=>$posts->load('user')];
         } else {
-            return ['msg'=>'error404'];
+            return ['msg'=>'empty'];
         }
     }
 

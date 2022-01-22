@@ -51,7 +51,9 @@ function Home() {
         } else {
             await fetch('http://127.0.0.1:8000/api/u/'+user.unm)
             .then((res)=>res.json())
-            .then((r)=>setUserPost(r))
+            .then((r)=>{setUserPost(r)
+                console.log(r);
+            })
             .catch((e)=>console.log(e));
         }
     }
@@ -78,16 +80,21 @@ function Home() {
                 <main>
                     <div className='in-cont' id='main-cont'>
                         {
-                            feeds && feeds.msg === 'success' ?
+                            
+                            feeds && feeds.msg === 'empty' ? 'No Posts Yet' : feeds && feeds.msg === 'success' ?
                             feeds.posts.map((post) => 
                             !user ? 
                             <div key={post.id} className="post-container">
                                 <div className="post-head">
                                     {post.user.name}
+                                    <span className='post-time'>{post.created_at}</span>
                                 </div>
                                 <div className="post-body">
                                     <span className="post-title">{post.title}</span>
                                     {post.post}
+                                    <div className="post-img-cont">
+                                        <img src={'http://127.0.0.1:8000/storage/'+post.file} alt='notAvailable...' />
+                                    </div>
                                 </div>
                             </div> :
                             user && user.id !== post.user.id ?
@@ -98,6 +105,9 @@ function Home() {
                                 <div className="post-body">
                                     <span className="post-title">{post.title}</span>
                                     {post.post}
+                                    <div className="post-img-cont">
+                                        <img src={'http://127.0.0.1:8000/storage/'+post.file} alt='notAvailable...' />
+                                    </div>
                                 </div>
                             </div>
                             : null
