@@ -41,7 +41,7 @@ class UserController extends Controller
     function profileView($user) {
         $u = \App\Models\User::where('unm',$user)->first();
         if($u) {
-            return ['msg'=>'success', 'posts'=>$u->post];
+            return ['msg'=>'success','user'=>$u, 'posts'=>$u->post,'profile'=>$u->profile];
         } else {
             return ['msg'=>'error404'];
         }

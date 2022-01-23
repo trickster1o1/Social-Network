@@ -118,7 +118,7 @@ function Home() {
                         
                     </div>
                     <div className='in-cont' id='profile-cont'>
-                        {userPost && userPost.msg === 'success' ? <Profile uPost = {userPost} userInfo = {user} /> : userPost.msg === 'error404' ? 'server down' : 'Loading...' }
+                        {userPost && userPost.msg === 'success' ? <Profile uPost = {userPost} /> : userPost.msg === 'error404' ? 'server down' : 'Loading...' }
                         
                     </div>
                 </main>
