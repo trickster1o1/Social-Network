@@ -14,7 +14,7 @@ function User() {
             .catch((e)=>console.log(e));
         }
         fetchProfile();
-    }, [])
+    }, [param.user])
     return (
         <div className="container">
             <Header />
