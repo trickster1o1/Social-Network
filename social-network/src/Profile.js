@@ -17,19 +17,34 @@ function Profile(props) {
                 {
                     props.uPost.profile === null ? 
                     <div className="profile-cover">
-                        <div className="profile-pic">
-                            <img src='/logo512.png' alt='error404' />
-                        </div>
-                        <div className="profile-desc">
-                            <p>Some text here</p>
-                            {user && user.unm === props.uPost.user.unm ? <button className="btn btn-secondary" onClick={triggerEdit}>Edit</button> : null}
-                        </div>
-                    </div> :
+                            <div className="profile-pic">
+                                <img src='/logo512.png' alt='error404' />
+                            </div>
+                            <div className="profile-desc">
+                                <span><b>{props.uPost.user.name}</b></span>
+                                <p>Some text here</p>
+                                {user && user.unm === props.uPost.user.unm ? <button className="btn btn-secondary" onClick={triggerEdit}>Edit</button> : null}
+                            </div>
+                        </div> 
+                     :
                     <div className="profile-cover">
-                        <div className="profile-pic">
-                            <img src='/logo512.png' alt='error404' />
+                            {
+                                props.uPost.profile.cover_pic !== 'null' ?
+                                <div className="cover-pic">
+                                    <img src={'http://127.0.0.1:8000/storage/'+props.uPost.profile.cover_pic} alt='...' />
+                                </div>
+                                : null
+                            }
+                        <div className={props.uPost.profile.cover_pic !== 'null' ? "profile-pic wc" : "profile-pic"}>
+                            
+                            {
+                                props.uPost.profile.profile_pic !== 'null' 
+                                ? <img src={'http://127.0.0.1:8000/storage/'+props.uPost.profile.profile_pic} alt='error404' />
+                                : <img src='/logo512.png' alt='error404' />
+                            }
                         </div>
                         <div className="profile-desc">
+                            <span><b>{props.uPost.user.name}</b></span>
                             <p>{props.uPost.profile.description}</p>
                             {user && user.unm === props.uPost.user.unm ? <button className="btn btn-secondary" onClick={triggerEdit}>Edit</button> : null}
                         </div>

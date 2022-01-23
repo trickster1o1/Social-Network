@@ -141,7 +141,39 @@ main::-webkit-scrollbar-thumb {
   height: 5em;
   width: 5em;
   overflow: hidden;
+  border-radius: 100%;
+  border: 2px solid #aaa; 
+  background-color: black;
+} .wc{
+  margin-top: -2.5em;
 } .profile-pic img {
   width: 100%;
   height: auto;
+} .nav-right {
+  display: flex;
+  height: 5.5vh;
+  align-items: center;
+  margin-left: auto;
+  justify-self: flex-end;
+} .nav-right input {
+  height: 4vh;
+  width: 15vw;
+  border-radius: 15px;
+  padding: 10px;
+  outline: none;
+  border: 1px solid rgba(0, 0, 0, 0.5);
+} .profile-cover {
+  min-height: 20vh;
+  overflow: hidden;
+} .cover-pic {
+  height: 20vh;
+  overflow: hidden;
+} .cover-pic img {
+  width: 100%;
+  height: auto;
+} .profile-desc button {
+  float: right;
+  margin-top: -3em;
+} .profile-desc {
+  padding-bottom: 1em;
 }
