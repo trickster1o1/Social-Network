@@ -1,11 +1,46 @@
+import { useNavigate } from "react-router-dom";
+
 function Profile(props) {
+    const navigate = useNavigate();
+    
+    function triggerEdit() {
+        if(props.uPost.profile === null) {
+            navigate('/setprofile');
+        } else {
+            alert('seen profile');
+        }
+    }
+   const user = JSON.parse(localStorage.getItem('user-info'));
     return(
         <>
+            <div className="profile-head">
+                {
+                    props.uPost.profile === null ? 
+                    <div className="profile-cover">
+                        <div className="profile-pic">
+                            <img src='/logo512.png' alt='error404' />
+                        </div>
+                        <div className="profile-desc">
+                            <p>Some text here</p>
+                            {user && user.unm === props.uPost.user.unm ? <button className="btn btn-secondary" onClick={triggerEdit}>Edit</button> : null}
+                        </div>
+                    </div> :
+                    <div className="profile-cover">
+                        <div className="profile-pic">
+                            <img src='/logo512.png' alt='error404' />
+                        </div>
+                        <div className="profile-desc">
+                            <p>{props.uPost.profile.description}</p>
+                            {user && user.unm === props.uPost.user.unm ? <button className="btn btn-secondary" onClick={triggerEdit}>Edit</button> : null}
+                        </div>
+                    </div>
+                }
+            </div>
             { props.uPost.posts.length === 0 ? 'No Posts yet' :
                 props.uPost.posts.map((post) => 
                     <div key={post.id} className="post-container">
                         <div className="post-head">
-                            {props.userInfo.name}
+                            {props.uPost.user.name}
                         </div>
                         <div className="post-body">
                             <span className="post-title">{post.title}</span>
