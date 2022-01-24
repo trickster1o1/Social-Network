@@ -23,6 +23,9 @@ Route::post('login',[App\Http\Controllers\UserController::class,'login']);
 Route::get('feeds',[App\Http\Controllers\UserController::class,'newsFeed']);
 Route::get('u/{user}',[App\Http\Controllers\UserController::class,'profileView']);
 
+Route::get('p/{user}',[App\Http\Controllers\ProfileController::class,'getProfile']);
 Route::post('{user}/set',[App\Http\Controllers\ProfileController::class,'setProfile']);
+Route::post('{user}/update',[App\Http\Controllers\ProfileController::class,'updateProfile']);
+
 
 Route::post('addpost/{user}',[App\Http\Controllers\PostController::class,'createPost']);

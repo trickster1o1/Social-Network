@@ -51,9 +51,7 @@ function Home() {
         } else {
             await fetch('http://127.0.0.1:8000/api/u/'+user.unm)
             .then((res)=>res.json())
-            .then((r)=>{setUserPost(r)
-                console.log(r);
-            })
+            .then((r)=>setUserPost(r))
             .catch((e)=>console.log(e));
         }
     }
