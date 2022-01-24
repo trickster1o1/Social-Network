@@ -5,9 +5,9 @@ function Profile(props) {
     
     function triggerEdit() {
         if(props.uPost.profile === null) {
-            navigate('/setprofile');
+            navigate('/setprofile/0');
         } else {
-            alert('seen profile');
+            navigate('/setprofile/1');
         }
     }
    const user = JSON.parse(localStorage.getItem('user-info'));

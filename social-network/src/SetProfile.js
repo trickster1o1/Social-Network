@@ -1,6 +1,6 @@
 import Header from "./Header";
 import { useEffect,useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 function SetProfile() {
     let [name, setName] = useState('');
     let [unm, setUnm] = useState('');
@@ -11,12 +11,27 @@ function SetProfile() {
     let [coverPic, setCoverPic] = useState('');
     const user = JSON.parse(localStorage.getItem('user-info'));
     const navigate = useNavigate();
+    const param = useParams();
     useEffect(()=> {
+        let getProf = async () => {
+            await fetch('http://127.0.0.1:8000/api/p/'+user.id)
+            .then((res)=>res.json())
+            .then((r)=>{
+                setPhone(r.profile.number);
+                setDescription(r.profile.description);
+                setProfilePic(r.profile.profile_pic);
+                setCoverPic(r.profile.cover_pic);
+            })
+            .catch((e)=>console.log(e));
+        }
         if(!user) {
             navigate('/login');
         } else {
             setName(user.name);
             setUnm(user.unm);
+            if(param.stat === '1'){
+                getProf();
+            }
         }
     }, [])
     async function setProfile() {
@@ -28,13 +43,43 @@ function SetProfile() {
         formData.append('description',description);
         formData.append('profilePic',profilePic);
         formData.append('coverPic',coverPic);
-        await fetch('http://127.0.0.1:8000/api/'+user.id+'/set',{
-            method:'POST',
-            body:formData
-        })
-        .then((res)=>res.json())
-        .then((r)=>console.log(r))
-        .catch((e)=>console.log(e));
+        
+        
+        if(param.stat === '0') {
+            await fetch('http://127.0.0.1:8000/api/'+user.id+'/set',{
+                method:'POST',
+                body:formData
+            })
+            .then((res)=>res.json())
+            .then((r)=>console.log(r))
+            .catch((e)=>console.log(e));
+            
+        } else if (param.stat === '1') {
+            await fetch('http://127.0.0.1:8000/api/'+user.id+'/update',{
+                method:'PUT',
+                body:JSON.stringify({
+                    'name':name,
+                    'unm':unm,
+                    'phone':phone,
+                    'gender':gender,
+                    'description':description,
+                    'profilePic':profilePic,
+                    'coverPic':coverPic
+                }),
+                headers:{
+                    'Content-Type':'application/json',
+                    'Accept':'application/json'
+                }
+            })
+            .then((res)=>res.json())
+            .then((r)=>{
+                console.log(r);
+            })
+            .catch((e)=>console.log(e))
+
+        } else {
+            navigate('/');
+        }
     }
     return(
         <div className="container">
@@ -53,14 +98,17 @@ function SetProfile() {
                 <input type='file' onChange={(e)=>setCoverPic(e.target.files[0])} />
                 
                 <label>Phone</label>
-                <input type='text' placeholder="Phone No." onChange={(e)=>setPhone(e.target.value)} />
-                <label>Gender</label>
-                <select onChange={(e)=>setGender(e.target.value)}>
-                    <option>Male</option>
-                    <option>Female</option>
-                </select>
+                <input type='text' placeholder="Phone No." value={phone} onChange={(e)=>setPhone(e.target.value)} />
+                { param && param.stat === '0' ?
+                    <><label>Gender</label>
+                    <select onChange={(e)=>setGender(e.target.value)}>
+                        <option>Male</option>
+                        <option>Female</option>
+                    </select></>
+                    : null
+                }
                 <label>Description</label>
-                <textarea placeholder="Description" onChange={(e)=>setDescription(e.target.value)}></textarea>
+                <textarea placeholder="Description" value={description} onChange={(e)=>setDescription(e.target.value)}></textarea>
                 <div className="bton-holder">
                     <button className="btn btn-secondary" onClick={setProfile} >Edit</button>
                 </div>
