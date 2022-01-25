@@ -56,24 +56,16 @@ function SetProfile() {
             
         } else if (param.stat === '1') {
             await fetch('http://127.0.0.1:8000/api/'+user.id+'/update',{
-                method:'PUT',
-                body:JSON.stringify({
-                    'name':name,
-                    'unm':unm,
-                    'phone':phone,
-                    'gender':gender,
-                    'description':description,
-                    'profilePic':profilePic,
-                    'coverPic':coverPic
-                }),
-                headers:{
-                    'Content-Type':'application/json',
-                    'Accept':'application/json'
-                }
+                method:'POST',
+                body:formData
             })
             .then((res)=>res.json())
             .then((r)=>{
-                console.log(r);
+                if(r.msg === 'success') {
+                    navigate('/u/'+user.unm);
+                } else {
+                    alert(r.msg);
+                }
             })
             .catch((e)=>console.log(e))
 

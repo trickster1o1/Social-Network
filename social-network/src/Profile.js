@@ -52,9 +52,10 @@ function Profile(props) {
                 }
             </div>
             { props.uPost.posts.length === 0 ? 'No Posts yet' :
-                props.uPost.posts.map((post) => 
+                props.uPost.posts.slice(0).reverse().map((post) => 
                     <div key={post.id} className="post-container">
                         <div className="post-head">
+                        <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+props.uPost.profile.profile_pic} alt="error404" /> </span>
                             {props.uPost.user.name}
                         </div>
                         <div className="post-body">

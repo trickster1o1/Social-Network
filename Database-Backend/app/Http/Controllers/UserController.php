@@ -9,12 +9,6 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     function signup(request $req) {
-        // $user = new \App\Models\User;
-        // $user->name = $req->fname;
-        // $user->unm = $req->unm;
-        // $user->email = $req->email;
-        // $user->password = Hash::make($req->pwd);
-        // $user->save();
         
         $user = \App\Models\User::create([
             'name' => $req->fname,
@@ -48,10 +42,10 @@ class UserController extends Controller
     }
 
     function newsFeed() {
-        $posts = \App\Models\Post::orderBy('id','desc')->get();
-
+        // $posts = \App\Models\Post::orderBy('id','desc')->get();
+        $posts = \App\Models\Post::with(['user','user.profile'])->orderBy('id','desc')->get();
         if(count($posts) > 0) {
-            return ['msg'=>'success', 'posts'=>$posts->load('user')];
+            return ['msg'=>'success', 'posts'=>$posts];
         } else {
             return ['msg'=>'empty'];
         }
