@@ -66,24 +66,35 @@ class ProfileController extends Controller
 
     function updateProfile($user, request $req) {
         $user = \App\Models\User::findOrFail($user);
+        $pic = '';
         if(!$user) {
             return ['msg'=>'error404'];
         } else {
-            // if(file_exists($req->profilePic)) {
-            //     return ['msg'=>'exist'];
-            // } else {
-            //     return ['msg'=>$req->profilePic];
-            // }
-            return ['msg'=>$req->profilePic];
-            // if($user->profile->profile_pic == $req->profilePic) {
-            //     return ['msg'=>'same'];
-            // } else {
-            //     if(move_uploaded_file($req->profilePic, 'storage/profile/'.$user->name.''.$user->id.'.jpg')) {
-            //         return ['msg'=>'stored'];
-            //     } else {
-            //         return ['msg'=>$req->profilePic,'data'=>'nope'];
-            //     }
-            // }
+            if(!empty($req->file('profilePic'))) {
+                if(file_exists('storage/'.$user->profile->profile_pic)) {
+                    unlink('storage/'.$user->profile->profile_pic);
+                }
+                $user->profile()->update([
+                    'profile_pic'=>$req->file('profilePic')->store('profile','public')
+                ]);
+                $pic = $pic.'Profile';
+            }
+            if(!empty($req->file('coverPic'))) {
+                if(file_exists('storage/'.$user->profile->cover_pic)) {
+                    unlink('storage/'.$user->profile->cover_pic);
+                }
+                $user->profile()->update([
+                    'cover_pic'=>$req->file('coverPic')->store('profile','public')
+                ]);
+                $pic = $pic.' Cover';
+            }
+            $user->profile()->update([
+                'number'=>$req->input('phone'),
+                'gender'=>$req->input('gender'),
+                'description'=>$req->input('description')
+            ]);
+            return ['msg'=>'success','stat'=>$pic];
+
         }
     }
 }

@@ -84,7 +84,8 @@ function Home() {
                             !user ? 
                             <div key={post.id} className="post-container">
                                 <div className="post-head">
-                                    {post.user.name}
+                                <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic} alt="error404" /> </span>
+                                    <Link to={'/u/'+post.user.unm}>{post.user.name}</Link>
                                     <span className='post-time'>{post.created_at}</span>
                                 </div>
                                 <div className="post-body">
@@ -98,7 +99,8 @@ function Home() {
                             user && user.id !== post.user.id ?
                             <div key={post.id} className="post-container">
                                 <div className="post-head">
-                                    {post.user.name}
+                                    <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic} alt="error404" /> </span>
+                                    <Link to={'/u/'+post.user.unm}>{post.user.name}</Link>
                                 </div>
                                 <div className="post-body">
                                     <span className="post-title">{post.title}</span>
