@@ -3,5 +3,9 @@
         display: none;
     } main {
         flex-grow: 1;
+    } .navB input {
+        width: 45vw;
+    }.navB {
+        width: 92vw;
     }
 }

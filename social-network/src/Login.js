@@ -1,10 +1,16 @@
 import Header from './Header';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 function Login() {
     let [unm, setUnm] = useState('');
     let [pwd, setPwd] = useState('');
     let navigate = useNavigate();
+
+    useEffect(()=>{
+        if(localStorage.getItem('user-info')) {
+            navigate('/');
+        }
+    },[])
     async function login() {
         let user = {unm, pwd};
         await fetch('http://127.0.0.1:8000/api/login',{

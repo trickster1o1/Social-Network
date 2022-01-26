@@ -11,6 +11,17 @@ function Profile(props) {
         }
     }
    const user = JSON.parse(localStorage.getItem('user-info'));
+   let likePost = async (id) => {
+       await fetch('http://127.0.0.1:8000/api/likepost/'+user.id+'/'+id,{
+           method:'POST',
+           headers:{
+               'Content-Type':'application/json',
+               'Accept':'application/json'
+           }
+       }).then((res)=>res.json())
+       .then((r)=>console.log(r))
+       .catch((e)=>console.log(e));
+   }
     return(
         <>
             <div className="profile-head">
@@ -64,6 +75,9 @@ function Profile(props) {
                             <div className="post-img-cont">
                                 <img src={'http://127.0.0.1:8000/storage/'+post.file} alt='notAvailable...' />
                             </div>
+                        </div>
+                        <div className='post-tail'>
+                            <div onClick={()=>likePost(post.id)}>L</div>
                         </div>
                     </div>
                 )

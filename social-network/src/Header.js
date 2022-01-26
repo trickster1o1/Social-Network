@@ -6,7 +6,8 @@ function Header() {
     let [user,setUser] = useState('');
     function srchUser(e) {
         if(e.key === 'Enter'){
-            navigate('/u/'+user)
+            navigate('/profile/'+user);
+            e.target.value='';
         }
     }
     return(
