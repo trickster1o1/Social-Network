@@ -29,3 +29,4 @@ Route::post('{user}/update',[App\Http\Controllers\ProfileController::class,'upda
 
 
 Route::post('addpost/{user}',[App\Http\Controllers\PostController::class,'createPost']);
+Route::post('likepost/{user}/{post}',[App\Http\Controllers\PostController::class,'likePost']);

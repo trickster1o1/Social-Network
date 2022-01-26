@@ -115,7 +115,7 @@ main::-webkit-scrollbar-thumb {
   display: flex;
   flex-direction: column;
   box-shadow: 1px 1px 5px 1px black;
-  padding: 15px;
+  padding: 15px 15px 2px 15px;
   margin-bottom: 1em;
 } .post-head {
   display: flex;
@@ -191,4 +191,19 @@ main::-webkit-scrollbar-thumb {
   height: auto;
 } .post-head a:hover {
   color: rgb(0,0,0);
+}
+
+.post-tail {
+  display: flex;
+  height: 3em;
+} .post-tail > div {
+  height: 100%;
+  border: 1px solid rgba(0,0,0,.2);
+  display: flex;
+  align-items: center;
+  width: 7em;
+  justify-content: center;
+  cursor: pointer;
+} .post-tail > div:hover {
+  background-color: rgba(200, 200, 200, .2);
 }

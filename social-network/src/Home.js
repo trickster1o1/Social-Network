@@ -2,21 +2,60 @@ import Header from './Header';
 import { Link, useNavigate } from 'react-router-dom';
 import Profile from './Profile';
 import { useState, useEffect } from 'react';
+import {useParams} from 'react-router';
 function Home() {
     let user = JSON.parse(localStorage.getItem('user-info'));
     let navigate = useNavigate();
     let [userPost, setUserPost] = useState([]);
     let [feeds, setFeeds] = useState([]);
+    let param = useParams();
 
     useEffect(() => {
         let getFeeds = async () => {
+            document.getElementById('profile-cont').style.display = 'none';
+            document.getElementById('main-cont').style.display = 'block';
+            document.getElementById('profile').classList.remove('active-nav');
+            document.getElementById('notif').classList.remove('active-nav');
+            document.getElementById('home').classList.add('active-nav');
             await fetch('http://127.0.0.1:8000/api/feeds')
             .then((res)=>res.json())
             .then((r)=>{setFeeds(r)})
             .catch((e)=>console.log(e));
+
+            
         }
-        getFeeds();
-    }, []);
+        let getProfile = async () => {
+            document.getElementById('profile-cont').style.display = 'block';
+            document.getElementById('main-cont').style.display = 'none';
+            document.getElementById('home').classList.remove('active-nav');
+            document.getElementById('notif').classList.remove('active-nav');
+            if(param && param.user) {
+                document.getElementById('profile').classList.remove('active-nav');
+                await fetch('http://127.0.0.1:8000/api/u/'+param.user)
+                .then((res)=>res.json())
+                .then((r)=>setUserPost(r))
+                .catch((e)=>console.log(e));
+            } else {
+                if(!user) {
+                    navigate('/login');
+                } else {
+                    document.getElementById('profile').classList.add('active-nav');
+                    await fetch('http://127.0.0.1:8000/api/u/'+user.unm)
+                    .then((res)=>res.json())
+                    .then((r)=>setUserPost(r))
+                    .catch((e)=>console.log(e));
+                }
+            }
+            
+        }
+        if(param && param.page === 'home') {
+            getFeeds();
+        } else if (param && param.page === 'profile') {
+            getProfile();
+        } else {
+            navigate('/home');
+        }
+    }, [param]);
     let pop = () => {
         if(document.getElementById('pop-out').style.display === ''){
             document.getElementById('pop-out').style.display = 'block';
@@ -33,26 +72,13 @@ function Home() {
     }
 
     function viewFeed() {
-        document.getElementById('profile-cont').style.display = 'none';
-        document.getElementById('main-cont').style.display = 'block';
-        document.getElementById('profile').classList.remove('active-nav');
-        document.getElementById('notif').classList.remove('active-nav');
-        document.getElementById('home').classList.add('active-nav');
+        navigate('/home');
     }
-    async function viewProfile() {
-        document.getElementById('profile-cont').style.display = 'block';
-        document.getElementById('main-cont').style.display = 'none';
-        document.getElementById('profile').classList.add('active-nav');
-        document.getElementById('home').classList.remove('active-nav');
-        document.getElementById('notif').classList.remove('active-nav');
-
+    function viewProfile() {
         if(!user) {
             navigate('/login');
         } else {
-            await fetch('http://127.0.0.1:8000/api/u/'+user.unm)
-            .then((res)=>res.json())
-            .then((r)=>setUserPost(r))
-            .catch((e)=>console.log(e));
+            navigate('/profile');
         }
     }
     return (
@@ -85,7 +111,7 @@ function Home() {
                             <div key={post.id} className="post-container">
                                 <div className="post-head">
                                 <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic} alt="error404" /> </span>
-                                    <Link to={'/u/'+post.user.unm}>{post.user.name}</Link>
+                                    <Link to={'/profile/'+post.user.unm}>{post.user.name}</Link>
                                     <span className='post-time'>{post.created_at}</span>
                                 </div>
                                 <div className="post-body">
@@ -100,7 +126,7 @@ function Home() {
                             <div key={post.id} className="post-container">
                                 <div className="post-head">
                                     <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic} alt="error404" /> </span>
-                                    <Link to={'/u/'+post.user.unm}>{post.user.name}</Link>
+                                    <Link to={'/profile/'+post.user.unm}>{post.user.name}</Link>
                                 </div>
                                 <div className="post-body">
                                     <span className="post-title">{post.title}</span>
@@ -118,7 +144,7 @@ function Home() {
                         
                     </div>
                     <div className='in-cont' id='profile-cont'>
-                        {userPost && userPost.msg === 'success' ? <Profile uPost = {userPost} /> : userPost.msg === 'error404' ? 'server down' : 'Loading...' }
+                        {userPost && userPost.msg === 'success' ? <Profile uPost = {userPost} /> : userPost.msg === 'error404' ? 'User not found' : 'Loading...' }
                         
                     </div>
                 </main>
