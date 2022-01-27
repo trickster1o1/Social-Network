@@ -206,4 +206,18 @@ main::-webkit-scrollbar-thumb {
   cursor: pointer;
 } .post-tail > div:hover {
   background-color: rgba(200, 200, 200, .2);
+  transition: background-color .5s ease-in-out;
+} .post-liked {
+  background-color: rgba(150,100,150,.5);
+} .more-post {
+  cursor: pointer;
+  height: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 1px 10px 1px black;
+} .more-post:hover {
+  box-shadow: 5px 1px 15px 1px black;
+  transform: scale(.9);
+  transition: box-shadow .2s ease-in-out, transform .2s ease-in-out;
 }

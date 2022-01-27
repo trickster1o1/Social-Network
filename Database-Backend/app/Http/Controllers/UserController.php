@@ -35,7 +35,7 @@ class UserController extends Controller
     function profileView($user) {
         $u = \App\Models\User::where('unm',$user)->first();
         if($u) {
-            return ['msg'=>'success','user'=>$u, 'posts'=>$u->post,'profile'=>$u->profile];
+            return ['msg'=>'success','user'=>$u, 'posts'=>$u->post->load('like'),'profile'=>$u->profile];
         } else {
             return ['msg'=>'error404'];
         }
@@ -43,7 +43,7 @@ class UserController extends Controller
 
     function newsFeed() {
         // $posts = \App\Models\Post::orderBy('id','desc')->get();
-        $posts = \App\Models\Post::with(['user','user.profile'])->orderBy('id','desc')->get();
+        $posts = \App\Models\Post::with(['user','user.profile','like'])->orderBy('id','desc')->get();
         if(count($posts) > 0) {
             return ['msg'=>'success', 'posts'=>$posts];
         } else {
