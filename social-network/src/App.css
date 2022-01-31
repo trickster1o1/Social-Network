@@ -220,4 +220,8 @@ main::-webkit-scrollbar-thumb {
   box-shadow: 5px 1px 15px 1px black;
   transform: scale(.9);
   transition: box-shadow .2s ease-in-out, transform .2s ease-in-out;
+} .p-view {
+  display: none;
+} .post-body a:hover {
+  color: black;
 }
