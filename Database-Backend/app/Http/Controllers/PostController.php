@@ -53,4 +53,13 @@ class PostController extends Controller
             
         }
     }
+
+    function getPost($post) {
+        $post = \App\Models\Post::findOrFail($post);
+        if(!$post) {
+            return ['msg'=>'error404'];
+        } else {
+            return ['msg'=>'success', 'post'=>$post, 'like'=>$post->like, 'user'=>$post->user, 'profile'=> $post->user->profile];
+        }
+    }
 }

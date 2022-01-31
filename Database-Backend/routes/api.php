@@ -28,5 +28,6 @@ Route::post('{user}/set',[App\Http\Controllers\ProfileController::class,'setProf
 Route::post('{user}/update',[App\Http\Controllers\ProfileController::class,'updateProfile']);
 
 
+Route::get('post/{post}',[App\Http\Controllers\PostController::class,'getPost']);
 Route::post('addpost/{user}',[App\Http\Controllers\PostController::class,'createPost']);
 Route::post('likepost/{user}/{post}',[App\Http\Controllers\PostController::class,'likePost']);

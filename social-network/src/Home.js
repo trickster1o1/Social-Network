@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Profile from './Profile';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router';
+import PostView from './PostView';
 function Home() {
     let user = JSON.parse(localStorage.getItem('user-info'));
     let navigate = useNavigate();
@@ -14,6 +15,7 @@ function Home() {
     useEffect(() => {
         let getFeeds = async () => {
             document.getElementById('profile-cont').style.display = 'none';
+            document.getElementById('post-view').style.display = 'none';
             document.getElementById('main-cont').style.display = 'block';
             document.getElementById('profile').classList.remove('active-nav');
             document.getElementById('notif').classList.remove('active-nav');
@@ -26,6 +28,7 @@ function Home() {
             
         }
         let getProfile = async () => {
+            document.getElementById('post-view').style.display = 'none';
             document.getElementById('profile-cont').style.display = 'block';
             document.getElementById('main-cont').style.display = 'none';
             document.getElementById('home').classList.remove('active-nav');
@@ -49,10 +52,24 @@ function Home() {
             }
             
         }
+        let getPost = () => {
+            document.getElementById('post-view').style.display = 'flex';
+            document.getElementById('profile-cont').style.display = 'none';
+            document.getElementById('main-cont').style.display = 'none';
+            document.getElementById('home').classList.remove('active-nav');
+            document.getElementById('notif').classList.remove('active-nav');
+
+        }
         if(param && param.page === 'home') {
             getFeeds();
         } else if (param && param.page === 'profile') {
             getProfile();
+        } else if(param && param.page === 'post'){
+            if(!param.user) {
+                navigate('/home');
+            } else {
+                getPost();
+            }
         } else {
             navigate('/home');
         }
@@ -144,17 +161,21 @@ function Home() {
                             </div> :
                             user && user.id !== post.user.id ?
                             <div key={post.id} className="post-container">
-                                <div className="post-head">
-                                    <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic} alt="error404" /> </span>
-                                    <Link to={'/profile/'+post.user.unm}>{post.user.name}</Link>
-                                </div>
-                                <div className="post-body">
-                                    <span className="post-title">{post.title}</span>
-                                    {post.post}
-                                    <div className="post-img-cont">
-                                        <img src={'http://127.0.0.1:8000/storage/'+post.file} alt='notAvailable...' />
+                                
+                                    <div className="post-head">
+                                        <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic} alt="error404" /> </span>
+                                        <Link to={'/profile/'+post.user.unm}>{post.user.name}</Link>
                                     </div>
-                                </div>
+                                    <div className="post-body">
+                                    <Link to={'/post/'+post.id}>
+                                        <span className="post-title">{post.title}</span>
+                                        {post.post}
+                                        <div className="post-img-cont">
+                                            <img src={'http://127.0.0.1:8000/storage/'+post.file} alt='notAvailable...' />
+                                        </div>
+                                        
+                                    </Link>
+                                    </div>
                                 {post.like !== null && post.like.like_count !== '0' ?
                                     <div className="post-msg">{post.like.like_count} likes</div>
                                     : null
@@ -176,8 +197,11 @@ function Home() {
                     </div>
                     <div className='in-cont' id='profile-cont'>
                         {userPost && userPost.msg === 'success' ? <Profile uPost = {userPost} /> : userPost.msg === 'error404' ? 'User not found' : 'Loading...' }
-                        
                     </div>
+                    <div className='p-view' id='post-view'>
+                        {param && param.user ? <PostView post={param.user} /> : null}
+                    </div>
+
                 </main>
                 <div className='right-nav'>
                     <nav>That</nav>
