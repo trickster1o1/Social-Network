@@ -4,12 +4,16 @@ import Profile from './Profile';
 import { useState, useEffect } from 'react';
 import {useParams} from 'react-router';
 import PostView from './PostView';
+import PostComment from './PostComment';
 function Home() {
     let user = JSON.parse(localStorage.getItem('user-info'));
     let navigate = useNavigate();
     let [userPost, setUserPost] = useState([]);
     let [feeds, setFeeds] = useState([]);
     let [noPost,setNoPost] = useState(2);
+    let [reply,setReply] = useState({});
+    let [showReply, setShowReply] = useState('none');
+    let [meter, setMeter] = useState(0);
     let param = useParams();
 
     useEffect(() => {
@@ -117,6 +121,14 @@ function Home() {
         }
       
    }
+
+   let replyPost = (post) => {
+       setShowReply('flex');
+       setReply(post);
+       setMeter(meter+1);
+   }
+
+
     return (
         <div className="container">
             <Header />
@@ -184,6 +196,9 @@ function Home() {
                                     <div onClick={()=>likePost(post.id)} id={'like'+post.id}  className={user && post.like !== null && post.like.likes.includes(','+user.id+',') ? 'post-liked' : null} >
                                         L
                                     </div>
+                                    <div onClick={()=>replyPost(post)}>
+                                        C
+                                    </div>
                                 </div>
                             </div>
                             : null
@@ -207,6 +222,8 @@ function Home() {
                     <nav>That</nav>
                 </div>
             </div>
+                <PostComment post={reply} show={showReply} meter={meter} />
+            
         </div>
     )
 }
