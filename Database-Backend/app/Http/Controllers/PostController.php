@@ -54,12 +54,38 @@ class PostController extends Controller
         }
     }
 
-    function getPost($post) {
-        $post = \App\Models\Post::findOrFail($post);
+    function getPost($pos) {
+        $post = \App\Models\Post::findOrFail($pos);
+        $comment = \App\Models\Comment::with(['user','user.profile'])->where('post_id','=',$pos)->get();
         if(!$post) {
             return ['msg'=>'error404'];
         } else {
-            return ['msg'=>'success', 'post'=>$post, 'like'=>$post->like, 'user'=>$post->user, 'profile'=> $post->user->profile];
+            return [
+                'msg'=>'success', 
+                'post'=>$post, 
+                'like'=>$post->like, 
+                'user'=>$post->user, 
+                'profile'=> $post->user->profile, 
+                'comments'=>$comment
+            ];
         }
+    }
+
+    function postCmnt(request $req) {
+        if(empty($req->reply) || empty($req->post) || empty($req->user)) {
+            return ['msg'=>'empty request'];
+        }
+
+        $user = \App\Models\User::findOrFail($req->user);
+        if(!$user) {
+            return ['msg'=>'error404'];
+        } else {
+            $user->comment()->create([
+                'reply'=>$req->reply,
+                'post_id'=>$req->post
+            ]);
+            return ['msg'=>'success'];
+        }
+        
     }
 }

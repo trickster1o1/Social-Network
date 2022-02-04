@@ -9,7 +9,7 @@ function PostView() {
         let gPost = async () => {
             await fetch('http://127.0.0.1:8000/api/post/'+param.user)
             .then((res)=>res.json())
-            .then((r)=>setPostData(r))
+            .then((r)=>{setPostData(r)})
             .catch((e)=>console.log(e));
         }
         if(param && param.user) {
@@ -50,15 +50,25 @@ function PostView() {
                             <img src={'http://127.0.0.1:8000/storage/'+postData.post.file} alt='notAvailable...' />
                         </div>
                     </div>
-                                {postData.like !== null && postData.like.like_count !== '0' ?
-                                    <div className="post-msg">{postData.like.like_count} likes</div>
-                                    : null
-                                }
-                                <div className='post-tail'>
-                                    <div onClick={()=>likePost(postData.id)} id={'like'+postData.id}  className={user && postData.like !== null && postData.like.likes.includes(','+user.id+',') ? 'post-liked' : null} >
-                                        L
-                                    </div>
+                    {postData.like !== null && postData.like.like_count !== '0' ?
+                        <div className="post-msg">{postData.like.like_count} likes</div>
+                        : null
+                    }
+                    <div className='post-tail'>
+                        <div onClick={()=>likePost(postData.id)} id={'like'+postData.id}  className={user && postData.like !== null && postData.like.likes.includes(','+user.id+',') ? 'post-liked' : null} >
+                            L
+                        </div>
+                    </div>
+                    <div className="post-comment">
+                        {postData && postData.comments ? 
+                            postData.comments.map((comment)=>
+                                <div key={comment.id}>
+                                    <span>{comment.user.name}</span>
+                                    <p>{comment.reply}</p>
                                 </div>
+                            )
+                        : '...'}
+                    </div>
                 </div>: 'loading...'
             }
         </>
