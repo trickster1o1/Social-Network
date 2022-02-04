@@ -245,15 +245,16 @@ main::-webkit-scrollbar-thumb {
 } .push-comment-body {
   padding: 15px;
 } .push-comment-reply {
+  display: flex;
   padding: 15px;
 } .push-comment-reply textarea {
   outline: none;
-  border: none;
   width: 100%;
-  min-height: 10em;
+  border:none;
+  min-height: 7em;
 }#p-cmnt {
   display: none;
-}.comment-body-head > .p_p img {
+}.p_p img {
   float:left;
   border-radius: 100%;
   height: 4em;
@@ -263,4 +264,25 @@ main::-webkit-scrollbar-thumb {
   padding-left: 5em;
 } .push-comment p{
   padding-left: 5em;
+} .push-comment-tail {
+  display: flex;
+  padding: 1em 1.5em 1em 6em;
+  justify-content: flex-start;
+} .comment-submit-btn {
+  margin-left: auto;
+  justify-self: flex-end;
+} .comment-submit-btn button {
+  border: none;
+  padding: .5em 1.5em;
+  border-radius: 45%;
+  background-color: #8ECDF8;
+  color: white;
+  font-weight: bold;
+} .post-comment > div {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+  padding: .5em 0;
+}.post-comment > div span {
+  font-weight: bold;
 }

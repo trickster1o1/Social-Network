@@ -18,7 +18,7 @@ class UserController extends Controller
         ]);
         return [
             'msg'=>'success',
-            'userInfo'=>$user
+            'userInfo'=>$user->load('profile')
         ];
     }
 
@@ -28,7 +28,7 @@ class UserController extends Controller
 
             return ['msg'=>'user not found'];
         } else {
-            return ['msg'=>'success','user'=>$user];
+            return ['msg'=>'success','user'=>$user->load('profile')];
         }
     }
 
