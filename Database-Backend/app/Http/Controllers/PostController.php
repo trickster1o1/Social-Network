@@ -56,7 +56,7 @@ class PostController extends Controller
 
     function getPost($pos) {
         $post = \App\Models\Post::findOrFail($pos);
-        $comment = \App\Models\Comment::with(['user','user.profile'])->where('post_id','=',$pos)->get();
+        $comment = \App\Models\Comment::with(['user','user.profile'])->where('post_id','=',$pos)->orderBy('id','desc')->get();
         if(!$post) {
             return ['msg'=>'error404'];
         } else {

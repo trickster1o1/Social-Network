@@ -285,4 +285,19 @@ main::-webkit-scrollbar-thumb {
   padding: .5em 0;
 }.post-comment > div span {
   font-weight: bold;
+} .post-comment > div textarea {
+  width: 100%;
+  outline:none;
+  border: none;
+} .post-comment .p_p > img {
+  height: 2em;
+  width: 2em;
+} .post-comment p {
+  padding-left: 2.2em;
+} .cmnt-rply-to {
+  font-size: 10pt;
+  color: rgba(0, 0, 0, 0.5);
+  display: block;
+  padding-left: 2.6em;
+  margin-top: -.6em;
 }

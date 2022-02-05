@@ -5,6 +5,7 @@ function PostView() {
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user-info'));
     let [postData, setPostData] = useState([]);
+    let [reply, setReply] = useState('');
     useEffect(()=> {
         let gPost = async () => {
             await fetch('http://127.0.0.1:8000/api/post/'+param.user)
@@ -34,15 +35,37 @@ function PostView() {
         }
       
    }
+
+   let postCmnt = async () => {
+       if(!user) {
+            navigate('/login');
+       } else {
+            await fetch('http://127.0.0.1:8000/api/postCmnt',{
+                method:'POST',
+                body:JSON.stringify({
+                    'reply': reply,
+                    'post': postData.post.id,
+                    'user':user.id
+                }),
+                headers: {
+                    'Content-Type':'application/json',
+                    'Accept':'application/json'
+                }
+            }).then((res)=>res.json())
+            .then((r)=>console.log(r))
+            .catch((e)=>console.log(e));
+       }
+        
+    }
     return(
         <>
             {postData && postData.msg === 'error404' ? postData.msg : postData && postData.msg === 'success'  && postData.post ? 
                 <div key={postData.post.id} className="post-container">
                     <div className="post-head">
-                    <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+postData.profile.profile_pic} alt="error404" /> </span>
-                        <Link to={'/profile/'+postData.user.unm}>{postData.user.name}</Link>
+                   <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+postData.profile.profile_pic} alt="error404" /> </span>
+                        <Link to={'/profile/'+postData.user.unm}>{postData.user.name}</Link></div>
                         <span className='post-time'>{postData.post.created_at}</span>
-                    </div>
+                    
                     <div className="post-body">
                         <span className="post-title">{postData.post.title}</span>
                         {postData.post.post}
@@ -60,10 +83,20 @@ function PostView() {
                         </div>
                     </div>
                     <div className="post-comment">
+                                <div>
+                                    <textarea placeholder="Reply" onChange={(e)=>setReply(e.target.value)} />
+                                    <div class='comment-submit-btn'>
+                                        <button onClick={postCmnt}>Reply</button>
+                                    </div>
+                                </div>
                         {postData && postData.comments ? 
                             postData.comments.map((comment)=>
                                 <div key={comment.id}>
-                                    <span>{comment.user.name}</span>
+                                    <div>
+                                    <span className='p_p'> <img src={'http://127.0.0.1:8000/storage/'+comment.user.profile.profile_pic} alt="error404" /></span>
+                                    <span style={{'marginLeft':'.2em'}}>{comment.user.name}</span>
+                                    </div>
+                                    <span className="cmnt-rply-to">Replying to @{postData.user.unm}</span>
                                     <p>{comment.reply}</p>
                                 </div>
                             )
