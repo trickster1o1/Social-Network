@@ -1,5 +1,8 @@
 @media screen and (max-width: 800px) {
-    .inner-container .left-nav , .inner-container .right-nav {
+    main {
+        padding-bottom:5em ;
+    }
+    .inner-container .right-nav {
         display: none;
     } main {
         flex-grow: 1;
@@ -7,5 +10,30 @@
         width: 45vw;
     }.navB {
         width: 92vw;
+    } .inner-container .left-nav {
+        
+        z-index: 1000;
+        bottom: 0;
+        left: 0;
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-end;
+        width: 100vw;
+        height: 10vh;
+    }.left-nav > div {
+        display: none;
+    }.mob-nav {
+        background-color: white;
+        display: flex !important;
+        justify-content: space-around;
+        width: 95vw !important;
+        border-radius: 0 !important;
+        
+    } .mob-nav img {
+        width: 1em;
+        height: 1em;
+    } .push-comment {
+        left: 2%;
+        width: 95vw;
     }
 }

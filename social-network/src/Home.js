@@ -134,13 +134,27 @@ function Home() {
             <Header />
             <div className='inner-container'>
                 <div className='left-nav'>
-                    <div>
+                    <div className='d-nav'>
                         <nav className='active-nav' onClick={viewFeed} id='home'>Home</nav>
                         <Link to='/addpost'><nav id='exp'>Explore</nav></Link>
                         <nav id='notif'>Notification</nav>
                         <nav onClick={viewProfile} id='profile'>Profile</nav>
                     </div>
-                    <div className='usr-lnk-exp' id='pop-out'>
+                    <nav className='mob-nav'>
+                        <nav onClick={viewFeed}>
+                            <img src='./home.svg' alt='h' />
+                        </nav>
+                        <Link to='/addpost'><nav>
+                            <img src='./exp.svg' alt='h' />
+                        </nav></Link>
+                        <nav id='notif'>
+                            <img src='./notif.svg' alt='h' />
+                        </nav>
+                        <nav onClick={viewProfile}>
+                            <img src='./prof.svg' alt='h' />
+                        </nav>
+                    </nav>
+                    <div className='d-nav usr-lnk-exp' id='pop-out'>
                         <nav onClick={logout}>Logout</nav>
                     </div>
                     <div className='usr-lnk'>
