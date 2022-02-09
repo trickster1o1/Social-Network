@@ -24,6 +24,7 @@ Route::get('feeds',[App\Http\Controllers\UserController::class,'newsFeed']);
 Route::get('u/{user}',[App\Http\Controllers\UserController::class,'profileView']);
 
 Route::get('p/{user}',[App\Http\Controllers\ProfileController::class,'getProfile']);
+Route::post('follow',[App\Http\Controllers\ProfileController::class,'followUser']);
 Route::post('{user}/set',[App\Http\Controllers\ProfileController::class,'setProfile']);
 Route::post('{user}/update',[App\Http\Controllers\ProfileController::class,'updateProfile']);
 

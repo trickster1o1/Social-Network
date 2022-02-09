@@ -145,8 +145,8 @@
   font-weight: 300;
   font-size: 8pt;
 } .profile-pic {
-  height: 5em;
-  width: 5em;
+  height: 7em;
+  width: 7em;
   overflow: hidden;
   border-radius: 100%;
   border: 2px solid #aaa; 
@@ -307,4 +307,27 @@
   margin-top: -.6em;
 } .mob-nav {
   display: none !important;
+} .profile-pic-wrapper {
+  display: flex;
+  padding-right: 4em;
+  justify-content: flex-start;
+}.profile-pic-wrapper button {
+  margin-left: auto;
+  justify-self: flex-start;
+  align-self: center;
+  padding: 5px 20px;
+  min-width:6em;
+  height: 2.5em;
+  border-radius: 43%;
+  border: none;
+}.profile-pic-wrapper button.follow::after {
+  font-weight: 500;
+  content: 'Follow';
+}.profile-pic-wrapper button.following::after {
+  font-weight: 500;
+  content:'Following';
+}.profile-pic-wrapper button.following:hover:after {
+  content: 'Unfollow';
+}.profile-pic-wrapper button.following:hover {
+  background-color: red;
 }

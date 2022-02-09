@@ -21,6 +21,10 @@ class CreateProfilesTable extends Migration
             $table->string('number')->nullable();
             $table->string('gender')->nullable();
             $table->string('description')->nullable();
+            $table->string('follower')->nullable();
+            $table->string('following')->nullable();
+            $table->string('follower_count')->nullable();
+            $table->string('following_count')->nullable();
             $table->timestamps();
 
             $table->index('user_id');

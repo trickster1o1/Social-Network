@@ -97,4 +97,67 @@ class ProfileController extends Controller
 
         }
     }
+
+    function followUser(request $req) {
+        $user = \App\Models\User::findOrFail($req->user);
+        $profile = \App\Models\User::findOrFail($req->profile);
+        if(!$user || !$profile) {
+            return ['msg'=>'error404'];
+        } else {
+            if($user->profile == null) {
+                $user->profile()->create([
+                    'following'=>','.$req->user.',',
+                    'following_count'=>'1'
+                ]);
+            } else {
+                if($user->profile->following == null) {
+                    $user->profile()->update([
+                        'following'=>','.$req->profile.',',
+                        'following_count'=>'1'
+                    ]);
+                } else {
+                    if(str_contains($user->profile->following, ','.$req->profile.',')) {
+                        $following = trim($user->profile->following, ','.$req->profile.',');
+                        $fc = (int) $user->profile->following_count - 1;
+                    } else {
+                        $fc = (int) $user->profile->following_count + 1;
+                        $following = $user->profile->following.','.$req->profile.',';
+                    }
+
+                    $user->profile()->update([
+                            'following'=>$following,
+                            'following_count'=>$fc
+                    ]);
+                }
+            }
+
+            if($profile->profile == null) {
+                $profile->profile()->create([
+                    'follower'=>','.$req->user.',',
+                    'follower_count'=>'1'
+                ]);
+                return ['msg'=>'followed'];
+            } else {
+                if(str_contains($profile->profile->follower, ','.$req->user.',')) {
+                    $follower = trim($profile->profile->follower, ','.$req->user.',');
+                    $fc = (int) $profile->profile->follower_count - 1;
+
+                    $profile->profile()->update([
+                        'follower'=>$follower,
+                        'follower_count'=>$fc
+                    ]);
+                    return ['msg'=>'unfollowed'];
+                } else {
+                    $follower = $profile->profile->follower.','.$req->user.',';
+                    $fc = (int) $profile->profile->follower_count + 1;
+
+                    $profile->profile()->update([
+                        'follower'=>$follower,
+                        'follower_count'=>$fc
+                    ]);
+                    return ['msg'=>'followed'];
+                }
+            }
+        }
+    }
 }

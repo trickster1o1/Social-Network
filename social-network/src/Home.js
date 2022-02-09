@@ -173,7 +173,7 @@ function Home() {
                             !user ? 
                             <div key={post.id} className="post-container">
                                 <div className="post-head">
-                                <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic} alt="error404" /> </span>
+                                <span className='profile_p'> <img src={ post && post.user && post.user.profile ? 'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
                                     <Link to={'/profile/'+post.user.unm}>{post.user.name}</Link>
                                     <span className='post-time'>{post.created_at}</span>
                                 </div>
@@ -185,11 +185,11 @@ function Home() {
                                     </div>
                                 </div>
                             </div> :
-                            user && user.id !== post.user.id ?
+                            
                             <div key={post.id} className="post-container">
                                 
                                     <div className="post-head">
-                                        <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic} alt="error404" /> </span>
+                                        <span className='profile_p'> <img src={post && post.user && post.user.profile ? 'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
                                         <Link to={'/profile/'+post.user.unm}>{post.user.name}</Link>
                                     </div>
                                     <div className="post-body">
@@ -215,7 +215,7 @@ function Home() {
                                     </div>
                                 </div>
                             </div>
-                            : null
+                            
                             )}
                             <div onClick={()=>setNoPost(noPost+2)} className="more-post" style={noPost > feeds.posts.length ? {'display':'none'} : {'display':'flex'}} >Load more</div>
                             </>
