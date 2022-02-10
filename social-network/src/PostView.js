@@ -62,7 +62,7 @@ function PostView() {
             {postData && postData.msg === 'error404' ? postData.msg : postData && postData.msg === 'success'  && postData.post ? 
                 <div key={postData.post.id} className="post-container">
                     <div className="post-head">
-                   <span className='profile_p'> <img src={'http://127.0.0.1:8000/storage/'+postData.profile.profile_pic} alt="error404" /> </span>
+                   <span className='profile_p'> <img src={ postData.profile && postData.profile.profile_pic !== null ? 'http://127.0.0.1:8000/storage/'+postData.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
                         <Link to={'/profile/'+postData.user.unm}>{postData.user.name}</Link></div>
                         <span className='post-time'>{postData.post.created_at}</span>
                     
@@ -85,7 +85,7 @@ function PostView() {
                     <div className="post-comment">
                                 <div>
                                     <textarea placeholder="Reply" onChange={(e)=>setReply(e.target.value)} />
-                                    <div class='comment-submit-btn'>
+                                    <div className ='comment-submit-btn'>
                                         <button onClick={postCmnt}>Reply</button>
                                     </div>
                                 </div>
@@ -93,7 +93,7 @@ function PostView() {
                             postData.comments.map((comment)=>
                                 <div key={comment.id}>
                                     <div>
-                                    <span className='p_p'> <img src={'http://127.0.0.1:8000/storage/'+comment.user.profile.profile_pic} alt="error404" /></span>
+                                    <span className='p_p'> <img src={ comment.user.profile && comment.user.profile.profile_pic !== null ? 'http://127.0.0.1:8000/storage/'+comment.user.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /></span>
                                     <span style={{'marginLeft':'.2em'}}>{comment.user.name}</span>
                                     </div>
                                     <span className="cmnt-rply-to">Replying to @{postData.user.unm}</span>

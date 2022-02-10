@@ -189,7 +189,7 @@ function Home() {
                             <div key={post.id} className="post-container">
                                 
                                     <div className="post-head">
-                                        <span className='profile_p'> <img src={post && post.user && post.user.profile ? 'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
+                                        <span className='profile_p'> <img src={post && post.user && post.user.profile && post.user.profile.profile_pic !== null ? 'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
                                         <Link to={'/profile/'+post.user.unm}>{post.user.name}</Link>
                                     </div>
                                     <div className="post-body">
@@ -217,7 +217,7 @@ function Home() {
                             </div>
                             
                             )}
-                            <div onClick={()=>setNoPost(noPost+2)} className="more-post" style={noPost > feeds.posts.length ? {'display':'none'} : {'display':'flex'}} >Load more</div>
+                            <div onClick={()=>setNoPost(noPost+2)} className="more-post" style={noPost >= feeds.posts.length ? {'display':'none'} : {'display':'flex'}} >Load more</div>
                             </>
                             : feeds && feeds.msg === 'error404' 
                             ? feeds.msg : 'loading...'

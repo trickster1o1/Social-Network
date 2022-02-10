@@ -102,8 +102,11 @@ function Profile(props) {
                             {user && props.uPost.user.id !== user.id ? <button className={followed ? "following" : 'follow'} onClick={follow}></button> : null}
                         </div>
                         <div className="profile-desc">
-                            <span><b>{props.uPost.user.name}</b></span>
-                            <p>{props.uPost.profile.description}</p>
+                            <span><b>{props.uPost.user.name}</b><br /> <span style={{'opacity':'.8'}}>@{props.uPost.user.unm}</span></span>
+                            <p>
+                                {props.uPost.profile.description}
+                                <br /><span style={{'fontWeight':'bold'}}>{props.uPost.profile.following_count}</span><span style={{'paddingLeft':'.2em','opacity':'.8'}}>Following</span> <span style={{'paddingLeft':'1em'}}><span style={{'fontWeight':'bold'}}>{props.uPost.profile.follower_count}</span><span style={{'paddingLeft':'.2em','opacity':'.8'}}>Followers</span></span>
+                            </p>
                             {user && user.unm === props.uPost.user.unm ? <button className="btn btn-secondary" onClick={triggerEdit}>Edit</button> : null}
                         </div>
                     </div>
@@ -114,7 +117,7 @@ function Profile(props) {
                 {props.uPost.posts.slice(0).reverse().slice(0, noPost).map((post) => 
                     <div key={post.id} className="post-container">
                         <div className="post-head">
-                        <span className='profile_p'> <img src={ props.uPost && props.uPost.profile ? 'http://127.0.0.1:8000/storage/'+props.uPost.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
+                        <span className='profile_p'> <img src={ props.uPost && props.uPost.profile && props.uPost.profile.profile_pic !== null ? 'http://127.0.0.1:8000/storage/'+props.uPost.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
                             {props.uPost.user.name}
                         </div>
                         <div className="post-body">

@@ -33,7 +33,7 @@ function PostComment(props) {
                 <div className="push-comment-body">
                     {props && props.post && props.post.user ?
                         <div className="comment-body-head">
-                            <span className='p_p'> <img src={'http://127.0.0.1:8000/storage/'+props.post.user.profile.profile_pic} alt="error404" /> </span>
+                            <span className='p_p'> <img src={ props.post.user.profile && props.post.user.profile.profile_pic !== null ? 'http://127.0.0.1:8000/storage/'+props.post.user.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg' } alt="error404" /> </span>
                             <span className='post-comment-head'><b>{props.post.user.name}</b><span style={{'color':'rgba(0,0,0,0.6)'}}>@{props.post.user.unm}</span></span>
                         </div>
                     : null}
@@ -45,7 +45,7 @@ function PostComment(props) {
                     </p>
                 </div>
                 <div className="push-comment-reply">
-                    <span className='p_p'> {props && props.post && props.post.user ? <img src={'http://127.0.0.1:8000/storage/'+user.profile.profile_pic} alt="error404" /> : null} </span>
+                    <span className='p_p'> {props && props.post && props.post.user && user && user.profile.profile_pic !== null ? <img src={'http://127.0.0.1:8000/storage/'+user.profile.profile_pic} alt="error404" /> : <img src={'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" />} </span>
                     <textarea type='text' placeholder="Reply" onChange={(e)=>setReply(e.target.value)} />
                 </div>
                 <div className="push-comment-tail">
