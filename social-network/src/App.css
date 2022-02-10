@@ -230,7 +230,7 @@
 } .post-body a:hover {
   color: black;
 } .push-comment {
-  position: absolute;
+  position: fixed;
   top:15%;
   left:32%;
   width: 35vw;
