@@ -7,6 +7,7 @@ import SignUp from './SignUp';
 import Home from './Home';
 import AddPost from './AddPost';
 import SetProfile from './SetProfile';
+import ReduxTrial from './redux-trial/ReduxTrial';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/addpost" element={<AddPost />} />
+          <Route path='/trial' element={<ReduxTrial />} />
+
           <Route path='/setprofile/:stat' element={<SetProfile />} />
 
           <Route path="/:page" element={<Home />} />
