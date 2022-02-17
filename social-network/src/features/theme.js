@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 const userTheme = localStorage.getItem('user-theme');
-let initialStateValue = '';
+let initialStateValue = 'light';
 if(userTheme) {
     initialStateValue = userTheme;
 }
@@ -11,7 +11,8 @@ const themeSlice = createSlice({
         changeTheme: (state, action) => {
             state.value = action.payload;
         },
-        defaultTheme: () => {
+        defaultTheme: (state) => {
+            state.value = 'light';
             localStorage.removeItem('user-theme');
         }
     },

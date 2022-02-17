@@ -8,10 +8,12 @@ import Home from './Home';
 import AddPost from './AddPost';
 import SetProfile from './SetProfile';
 import ReduxTrial from './redux-trial/ReduxTrial';
+import { useSelector } from 'react-redux';
 
 function App() {
+  let theme = useSelector((state)=>state.theme.value);
   return (
-    <div className="App">
+    <div className={theme && theme === 'dark' ? "App dark" : "App"}>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />

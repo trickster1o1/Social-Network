@@ -42,6 +42,43 @@
   border-radius: 10px;
 }  */
 
+/* theme */
+.dark {
+  color: white;
+  background-color: black;
+}.dark .navB {
+  background-color: black;
+} .dark a {
+  color: white;
+  text-decoration: none;
+} .dark a:hover {
+  color: white;
+}.dark .post-head a:hover {
+  color: white;
+} .dark .post-container {
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+  border-right: 1px solid rgba(255, 255, 255, 0.5);
+  margin-bottom: 0;
+} .theme-display {
+  display: none;
+  flex-direction: column;
+  position: absolute;
+  align-items: center;
+  left: 120%;
+  top: 20%;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  min-height: 10em;
+  min-width: 30em;
+  background-color: rgb(255,255,255);
+} .dark .theme-display {
+  background-color: black;
+} .theme-display > div div {
+  display: inline-block;
+  padding-top: 2em;
+  margin-left: 1em;
+}
+
 .inner-container {
   display: flex;
   justify-content: center;
@@ -82,8 +119,9 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    justify-content: center;
-    min-height: 50vh;
+    justify-content: flex-start;
+    padding-top: 15%;
+    min-height: 100vh;
 } .post-form input , textarea {
   width: 50%;
   border: 1px solid black;
@@ -227,8 +265,6 @@
   transition: box-shadow .2s ease-in-out, transform .2s ease-in-out;
 } .p-view {
   display: none;
-} .post-body a:hover {
-  color: black;
 } .push-comment {
   position: fixed;
   top:15%;

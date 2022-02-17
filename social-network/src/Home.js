@@ -5,6 +5,10 @@ import { useState, useEffect } from 'react';
 import {useParams} from 'react-router';
 import PostView from './PostView';
 import PostComment from './PostComment';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { changeTheme, defaultTheme } from './features/theme';
+
 function Home() {
     let user = JSON.parse(localStorage.getItem('user-info'));
     let navigate = useNavigate();
@@ -15,7 +19,9 @@ function Home() {
     let [showReply, setShowReply] = useState('none');
     let [meter, setMeter] = useState(0);
     let param = useParams();
-
+    let [theme,setTheme] = useState('');
+    const dispatch = useDispatch();
+    let cthm = useSelector((state)=>state.theme.value);
     useEffect(() => {
         let getFeeds = async () => {
             document.getElementById('profile-cont').style.display = 'none';
@@ -77,7 +83,15 @@ function Home() {
         } else {
             navigate('/home');
         }
-    }, [param]);
+        if(theme !== '') {
+            if(theme === 'light') {
+                dispatch(defaultTheme());
+            } else {
+                dispatch(changeTheme(theme));
+            }
+        }
+        // alert(theme);
+    }, [param, theme]);
     let pop = () => {
         if(document.getElementById('pop-out').style.display === ''){
             document.getElementById('pop-out').style.display = 'block';
@@ -89,7 +103,7 @@ function Home() {
 
     }
     function logout() {
-        localStorage.clear();
+        localStorage.removeItem('user-info');
         window.location.reload();
     }
 
@@ -128,6 +142,18 @@ function Home() {
        setMeter(meter+1);
    }
 
+   let displayThemes = () => {
+       document.getElementById('td').style.display = 'flex';
+   }
+
+   let changeThm = (e) => {
+       localStorage.setItem('user-theme',e);
+       setTheme(e);
+   }
+
+   function setThm() {
+        document.getElementById('td').style.display = 'none';
+   }
 
     return (
         <div className="container">
@@ -138,7 +164,22 @@ function Home() {
                         <nav className='active-nav' onClick={viewFeed} id='home'>Home</nav>
                         <Link to='/addpost'><nav id='exp'>Explore</nav></Link>
                         <nav id='notif'>Notification</nav>
+                        <nav id='display' onClick={displayThemes}>Display</nav>
                         <nav onClick={viewProfile} id='profile'>Profile</nav>
+                        <div className='theme-display' id="td">
+                                Themes here {cthm}
+                                <div>
+                                    <div className='form-check'>
+                                        <label className='form-check-label'>Dark</label>
+                                        <input className='form-check-input' type="radio" value='dark' name='theme' onChange={(e)=>changeThm(e.target.value)} />
+                                    </div>
+                                    <div className='form-check'>
+                                        <label className='form-check-label'>Light</label>
+                                        <input className='form-check-input' type="radio" value='light' name='theme' onChange={(e)=>changeThm(e.target.value)} />
+                                    </div>
+                                </div>
+                                <button className='btn btn-primary' onClick={setThm}>Set</button>
+                            </div>
                     </div>
                     <nav className='mob-nav'>
                         <nav onClick={viewFeed}>
@@ -173,7 +214,7 @@ function Home() {
                             !user ? 
                             <div key={post.id} className="post-container">
                                 <div className="post-head">
-                                <span className='profile_p'> <img src={ post && post.user && post.user.profile ? 'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
+                                <span className='profile_p'> <img src={ post && post.user && post.user.profile && post.user.profile.profile_pic !== null ? 'http://127.0.0.1:8000/storage/'+post.user.profile.profile_pic : 'http://127.0.0.1:8000/storage/profile/default.jpg'} alt="error404" /> </span>
                                     <Link to={'/profile/'+post.user.unm}>{post.user.name}</Link>
                                     <span className='post-time'>{post.created_at}</span>
                                 </div>
