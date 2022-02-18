@@ -35,5 +35,7 @@
     } .push-comment {
         left: 2%;
         width: 95vw;
+    } .dark .mob-nav {
+        background-color:#000;
     }
 }

@@ -1,6 +1,8 @@
 * {
   margin: 0px;
   padding: 0px;
+} nav {
+  user-select: none;
 } .navB ul {
   display: flex;
   padding:0 0 0 10px;
