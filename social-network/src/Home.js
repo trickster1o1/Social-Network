@@ -90,16 +90,24 @@ function Home() {
                 dispatch(changeTheme(theme));
             }
         }
-        // alert(theme);
+        
+        let hideTheme = document.querySelectorAll('.inner-container > div:not(.left-nav), main');
+        document.querySelectorAll('.inner-container  div:not(pop-out), .inner-container div:not(popperCont)').forEach(pp => {
+            pp.addEventListener('click', function() {
+             document.getElementById('pop-out').style.display = 'none';
+            })
+        });
+        hideTheme.forEach(ht => {
+           
+            ht.addEventListener('click',function(){
+                document.getElementById('td').style.display = 'none';
+
+            });
+ 
+        });
     }, [param, theme]);
     let pop = () => {
-        if(document.getElementById('pop-out').style.display === ''){
-            document.getElementById('pop-out').style.display = 'block';
-        }else if(document.getElementById('pop-out').style.display === 'none'){
-            document.getElementById('pop-out').style.display = 'block';
-        } else {
-            document.getElementById('pop-out').style.display = 'none';
-        }
+        document.getElementById('pop-out').style.display = 'block';
 
     }
     function logout() {
@@ -143,7 +151,11 @@ function Home() {
    }
 
    let displayThemes = () => {
-       document.getElementById('td').style.display = 'flex';
+       if(document.getElementById('td').style.display === 'flex') {
+            document.getElementById('td').style.display = 'none';
+       } else {
+         document.getElementById('td').style.display = 'flex';
+       }
    }
 
    let changeThm = (e) => {
@@ -166,16 +178,16 @@ function Home() {
                         <nav id='notif'>Notification</nav>
                         <nav id='display' onClick={displayThemes}>Display</nav>
                         <nav onClick={viewProfile} id='profile'>Profile</nav>
-                        <div className='theme-display' id="td">
+                            <div className='theme-display' id="td">
                                 Themes here {cthm}
                                 <div>
                                     <div className='form-check'>
                                         <label className='form-check-label'>Dark</label>
-                                        <input className='form-check-input' type="radio" value='dark' name='theme' onChange={(e)=>changeThm(e.target.value)} />
+                                        <input className='form-check-input' type="radio" value='dark' name='theme' onChange={(e)=>changeThm(e.target.value)} checked={cthm === 'dark' ? true : false} />
                                     </div>
                                     <div className='form-check'>
                                         <label className='form-check-label'>Light</label>
-                                        <input className='form-check-input' type="radio" value='light' name='theme' onChange={(e)=>changeThm(e.target.value)} />
+                                        <input className='form-check-input' type="radio" value='light' name='theme' onChange={(e)=>changeThm(e.target.value)} checked={cthm === 'light' ? true : false} />
                                     </div>
                                 </div>
                                 <button className='btn btn-primary' onClick={setThm}>Set</button>
@@ -183,22 +195,22 @@ function Home() {
                     </div>
                     <nav className='mob-nav'>
                         <nav onClick={viewFeed}>
-                            <img src='./home.svg' alt='h' />
+                            <img src={cthm === 'light' ? './home.svg' : './home-white.svg'} alt='h' />
                         </nav>
                         <Link to='/addpost'><nav>
-                            <img src='./exp.svg' alt='h' />
+                            <img src={cthm === 'light' ? './exp.svg' : './exp-white.svg'} alt='h' />
                         </nav></Link>
                         <nav id='notif'>
-                            <img src='./notif.svg' alt='h' />
+                            <img src={cthm === 'light' ? './notif.svg' : './notif-white.svg'} alt='h' />
                         </nav>
                         <nav onClick={viewProfile}>
-                            <img src='./prof.svg' alt='h' />
+                            <img src={cthm === 'light' ? './prof.svg' : './prof-white.svg'} alt='h' />
                         </nav>
                     </nav>
                     <div className='d-nav usr-lnk-exp' id='pop-out'>
                         <nav onClick={logout}>Logout</nav>
                     </div>
-                    <div className='usr-lnk'>
+                    <div className='usr-lnk' id='popperCont'>
                         {user ? <nav id='popper' onClick={pop} >{user.unm}</nav> :
                             <Link to='/login'><nav>Login</nav></Link>
                         }
