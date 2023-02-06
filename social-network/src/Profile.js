@@ -9,13 +9,10 @@ function Profile(props) {
 
     useEffect(()=>{
         if(user) {
-            if(user.profile !== null && props.uPost.profile !== null) {
-                if(props.uPost.profile.follower.includes(','+user.id+',')) {
-                    setFollowed(true);
-                } else {
-                    setFollowed(false);
-                }
+            if(user.profile != null && props.uPost.profile !== null) {
+                setFollowed(props.uPost.profile.follower ? props.uPost.profile.follower.includes(','+user.id+',') : false);
             }
+            console.log(props.uPost);
         }
     }, []);
     function triggerEdit() {
@@ -84,17 +81,17 @@ function Profile(props) {
                      :
                     <div className="profile-cover">
                             {
-                                props.uPost.profile.cover_pic !== null ?
+                                props.uPost.profile.cover_pic !== 'null' && props.uPost.profile.cover_pic !== null ?
                                 <div className="cover-pic">
                                     <img src={'http://127.0.0.1:8000/storage/'+props.uPost.profile.cover_pic} alt='...' />
                                 </div>
                                 : null
                             }
                         <div className="profile-pic-wrapper">
-                            <div className={props.uPost.profile.cover_pic !== null ? "profile-pic wc" : "profile-pic"}>
+                            <div className={props.uPost.profile.cover_pic !== 'null' && props.uPost.profile.cover_pic !== null ? "profile-pic wc" : "profile-pic"}>
                                 
                                 {
-                                    props.uPost.profile.profile_pic !== null 
+                                    props.uPost.profile.profile_pic !== 'null'  && props.uPost.profile.profile_pic !== null 
                                     ? <img src={'http://127.0.0.1:8000/storage/'+props.uPost.profile.profile_pic} alt='error404' />
                                     : <img src='http://127.0.0.1:8000/storage/profile/default.jpg' alt='error404' />
                                 }
@@ -103,10 +100,13 @@ function Profile(props) {
                         </div>
                         <div className="profile-desc">
                             <span><b>{props.uPost.user.name}</b><br /> <span style={{'opacity':'.8'}}>@{props.uPost.user.unm}</span></span>
+                            { props.uPost.profile.description && props.uPost.profile.description !== 'null' ?
                             <p>
                                 {props.uPost.profile.description}
-                                <br /><span style={{'fontWeight':'bold'}}>{props.uPost.profile.following_count}</span><span style={{'paddingLeft':'.2em','opacity':'.8'}}>Following</span> <span style={{'paddingLeft':'1em'}}><span style={{'fontWeight':'bold'}}>{props.uPost.profile.follower_count}</span><span style={{'paddingLeft':'.2em','opacity':'.8'}}>Followers</span></span>
+                                <br /><span style={{'fontWeight':'bold'}}>{props.uPost.profile.following_count ? props.uPost.profile.following_count : '0'}</span><span style={{'paddingLeft':'.2em','opacity':'.8'}}>Following</span> <span style={{'paddingLeft':'1em'}}><span style={{'fontWeight':'bold'}}>{props.uPost.profile.follower_count ? props.uPost.profile.follower_count : '0'}</span><span style={{'paddingLeft':'.2em','opacity':'.8'}}>Followers</span></span>
                             </p>
+                            : null
+                            }
                             {user && user.unm === props.uPost.user.unm ? <button className="btn btn-secondary" onClick={triggerEdit}>Edit</button> : null}
                         </div>
                     </div>

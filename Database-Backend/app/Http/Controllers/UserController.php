@@ -16,6 +16,10 @@ class UserController extends Controller
             'email' => $req->email,
             'password' => Hash::make($req->pwd)
         ]);
+        $user->profile()->create([
+            'profile_pic'=>'null',
+            'cover_pic'=>'null',
+        ]);
         return [
             'msg'=>'success',
             'userInfo'=>$user->load('profile')
