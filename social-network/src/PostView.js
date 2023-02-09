@@ -4,19 +4,21 @@ function PostView() {
     const param = useParams();
     const navigate = useNavigate();
     const user = JSON.parse(localStorage.getItem('user-info'));
+    const [loader, setLoader] = useState(1);
     let [postData, setPostData] = useState([]);
     let [reply, setReply] = useState('');
+    const [reload, setReload] = useState(0);
     useEffect(()=> {
         let gPost = async () => {
             await fetch('http://127.0.0.1:8000/api/post/'+param.user)
             .then((res)=>res.json())
-            .then((r)=>{setPostData(r)})
+            .then((r)=>{setPostData(r); setLoader(0);})
             .catch((e)=>console.log(e));
         }
         if(param && param.user) {
             gPost();
         }
-    }, []);
+    }, [reload]);
 
     let likePost = async (id) => {
         if(!user) {
@@ -40,6 +42,8 @@ function PostView() {
        if(!user) {
             navigate('/login');
        } else {
+        if(reply) {
+            setLoader(1);
             await fetch('http://127.0.0.1:8000/api/postCmnt',{
                 method:'POST',
                 body:JSON.stringify({
@@ -52,8 +56,13 @@ function PostView() {
                     'Accept':'application/json'
                 }
             }).then((res)=>res.json())
-            .then((r)=>console.log(r))
+            .then((r)=>{
+                setReload(reload+1);
+                setReply('');
+                setLoader(0);
+            })
             .catch((e)=>console.log(e));
+        }
        }
         
     }
@@ -83,10 +92,13 @@ function PostView() {
                         </div>
                     </div>
                     <div className="post-comment">
+                        <div className="loader-cmt" style={{'display': loader ? 'flex' : 'none'}}>
+                            Loading....
+                        </div>
                                 <div>
-                                    <textarea placeholder="Reply" onChange={(e)=>setReply(e.target.value)} />
+                                    <textarea placeholder="Reply" onChange={(e)=>setReply(e.target.value)} value={reply} />
                                     <div className ='comment-submit-btn'>
-                                        <button onClick={postCmnt}>Reply</button>
+                                        <button onClick={postCmnt}>Replys</button>
                                     </div>
                                 </div>
                         {postData && postData.comments ? 

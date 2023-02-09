@@ -101,6 +101,7 @@ function Home() {
            
             ht.addEventListener('click',function(){
                 document.getElementById('td').style.display = 'none';
+                document.getElementById('td-bg').style.display = 'none';
 
             });
  
@@ -153,8 +154,10 @@ function Home() {
    let displayThemes = () => {
        if(document.getElementById('td').style.display === 'flex') {
             document.getElementById('td').style.display = 'none';
+            document.getElementById('td-bg').style.display = 'none';
        } else {
          document.getElementById('td').style.display = 'flex';
+         document.getElementById('td-bg').style.display = 'flex';
        }
    }
 
@@ -165,6 +168,7 @@ function Home() {
 
    function setThm() {
         document.getElementById('td').style.display = 'none';
+        document.getElementById('td-bg').style.display = 'none';
    }
 
     return (
@@ -178,6 +182,8 @@ function Home() {
                         <nav id='notif'>Notification</nav>
                         <nav id='display' onClick={displayThemes}>Display</nav>
                         <nav onClick={viewProfile} id='profile'>Profile</nav>
+                            <div id='td-bg' style={{'backgroundColor': cthm === 'light' ? 'rgba(0,0,0,.2)' : 'rgba(255,255,255,.2)'}}>
+                            </div>
                             <div className='theme-display' id="td">
                                 Themes here {cthm}
                                 <div>
