@@ -8,6 +8,7 @@ import PostComment from './PostComment';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { changeTheme, defaultTheme } from './features/theme';
+import { FcComments, FcLike, FcLikePlaceholder } from "react-icons/fc";
 
 function Home() {
     let user = JSON.parse(localStorage.getItem('user-info'));
@@ -22,6 +23,7 @@ function Home() {
     let [theme,setTheme] = useState('');
     const dispatch = useDispatch();
     let cthm = useSelector((state)=>state.theme.value);
+    const [like,setLike] = useState({});
     useEffect(() => {
         let getFeeds = async () => {
             document.getElementById('profile-cont').style.display = 'none';
@@ -127,11 +129,11 @@ function Home() {
         }
     }
 
-    let likePost = async (id) => {
+    let likePost = async (id, likes) => {
         if(!user) {
             navigate('/login');
         } else {
-            document.getElementById('like'+id).classList.toggle('post-liked');
+            setLike({...like, ['p'+id]: like['p'+id] ? !like['p'+id] : likes.includes(','+user.id+',') ? false : true });
             await fetch('http://127.0.0.1:8000/api/likepost/'+user.id+'/'+id,{
                 method:'POST',
                 headers:{
@@ -188,12 +190,12 @@ function Home() {
                                 Themes here {cthm}
                                 <div>
                                     <div className='form-check'>
-                                        <label className='form-check-label'>Dark</label>
-                                        <input className='form-check-input' type="radio" value='dark' name='theme' onChange={(e)=>changeThm(e.target.value)} checked={cthm === 'dark' ? true : false} />
+                                        <label className='form-check-label' htmlFor='dark'>Dark</label>
+                                        <input className='form-check-input' type="radio" id='dark' value='dark' name='theme' onChange={(e)=>changeThm(e.target.value)} checked={cthm === 'dark' ? true : false} />
                                     </div>
                                     <div className='form-check'>
-                                        <label className='form-check-label'>Light</label>
-                                        <input className='form-check-input' type="radio" value='light' name='theme' onChange={(e)=>changeThm(e.target.value)} checked={cthm === 'light' ? true : false} />
+                                        <label className='form-check-label' htmlFor='light'>Light</label>
+                                        <input className='form-check-input' type="radio" id='light' value='light' name='theme' onChange={(e)=>changeThm(e.target.value)} checked={cthm === 'light' ? true : false} />
                                     </div>
                                 </div>
                                 <button className='btn btn-primary' onClick={setThm}>Set</button>
@@ -266,11 +268,14 @@ function Home() {
                                     : null
                                 }
                                 <div className='post-tail'>
-                                    <div onClick={()=>likePost(post.id)} id={'like'+post.id}  className={user && post.like !== null && post.like.likes.includes(','+user.id+',') ? 'post-liked' : null} >
-                                        L
+                                    <div onClick={()=>likePost(post.id, post.like.likes)} id={'like'+post.id}   >
+                                        {
+                                            (user && post.like !== null && post.like.likes.includes(','+user.id+',')) || like['p'+post.id] ? <FcLike /> : <FcLikePlaceholder />
+                                        }
+                                        
                                     </div>
                                     <div onClick={()=>replyPost(post)}>
-                                        C
+                                        <FcComments />
                                     </div>
                                 </div>
                             </div>
