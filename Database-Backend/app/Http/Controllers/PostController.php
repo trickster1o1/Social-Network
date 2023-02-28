@@ -23,10 +23,13 @@ class PostController extends Controller
 
     function likePost($user, $post) {
         $post = \App\Models\Post::findOrFail($post);
+        $stat = false;
+        $lc = 0;
         if(!$post){
             return ['msg'=>'error404'];
         } else {
             if($post->like == null) {
+                $stat = true;
                 $post->like()->create([
                     'like_count'=>'1',
                     'likes'=>','.$user.','
@@ -35,12 +38,14 @@ class PostController extends Controller
             } else {
                 if(str_contains($post->like->likes, ','.$user.',')) {
                     $r = ','.$user.',';
+                    $stat = false;
                     $replace = trim($post->like->likes, $r);
                     $lc = (int)$post->like->like_count - 1;
                    
                 } else {
                     $lc = (int)$post->like->like_count + 1;
                     $replace = $post->like->likes.','.$user.',';
+                    $stat = true;
                 }
 
                     $post->like()->update([
@@ -49,7 +54,7 @@ class PostController extends Controller
                     ]);
                     
             }
-            return ['msg'=>'success'];
+            return ['msg'=>'success', 'stat'=>$stat, 'lcount'=>$lc, 'lks'=>$replace];
             
         }
     }

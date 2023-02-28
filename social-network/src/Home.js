@@ -13,6 +13,8 @@ import { FcComments, FcLike, FcLikePlaceholder } from "react-icons/fc";
 function Home() {
     let user = JSON.parse(localStorage.getItem('user-info'));
     let navigate = useNavigate();
+    const [actionLog, setActionLog] = useState({}); 
+    const [likeUpdate, setLikeUpdate] = useState({});
     let [userPost, setUserPost] = useState([]);
     let [feeds, setFeeds] = useState([]);
     let [noPost,setNoPost] = useState(2);
@@ -133,7 +135,6 @@ function Home() {
         if(!user) {
             navigate('/login');
         } else {
-            setLike({...like, ['p'+id]: like['p'+id] ? !like['p'+id] : likes.includes(','+user.id+',') ? false : true });
             await fetch('http://127.0.0.1:8000/api/likepost/'+user.id+'/'+id,{
                 method:'POST',
                 headers:{
@@ -141,11 +142,16 @@ function Home() {
                     'Accept':'application/json'
                 }
             }).then((res)=>res.json())
-            .then((r)=>console.log(r))
+            .then((r)=>{
+                console.log(r);
+                setLike({...like, ['p'+id]: r.stat });
+                setActionLog({...actionLog, ['p'+id]: r.lks ? r.lks : 'null'});
+                setLikeUpdate({...likeUpdate, ['p'+id]: r.lcount === 0 ? 'null' : r.lcount})
+            })
             .catch((e)=>console.log(e));
         }
-      
-   }
+        console.log(actionLog);
+    }
 
    let replyPost = (post) => {
        setShowReply('flex');
@@ -263,14 +269,18 @@ function Home() {
                                         
                                     </Link>
                                     </div>
-                                {post.like !== null && post.like.like_count !== '0' ?
-                                    <div className="post-msg">{post.like.like_count} likes</div>
+                                {likeUpdate['p'+post.id] && likeUpdate['p'+post.id] != 'null' ?
+                                <div className="post-msg">{ likeUpdate['p'+post.id] } likes</div>
+                                :
+                                likeUpdate['p'+post.id] && likeUpdate['p'+post.id] == 'null' ? null
+                                :post.like !== null && post.like.like_count !== '0' ?
+                                    <div className="post-msg">{likeUpdate['p'+post.id] && likeUpdate['p'+post.id] != 'null' ? likeUpdate['p'+post.id] : post.like.like_count } likes</div>
                                     : null
                                 }
                                 <div className='post-tail'>
-                                    <div onClick={()=>likePost(post.id, post.like.likes)} id={'like'+post.id}   >
+                                    <div onClick={()=>likePost(post.id, post.like.likes ? post.like.likes : '' )} id={'like'+post.id}   >
                                         {
-                                            (user && post.like !== null && post.like.likes.includes(','+user.id+',')) || like['p'+post.id] ? <FcLike /> : <FcLikePlaceholder />
+                                            like['p'+post.id] ? <FcLike /> : actionLog['p'+post.id] && actionLog['p'+post.id].includes(','+user.id+',') ? <FcLike /> : actionLog['p'+post.id] && !actionLog['p'+post.id].includes(','+user.id+',') ? <FcLikePlaceholder /> : (user && post.like !== null && post.like.likes && post.like.likes.includes(','+user.id+',')) ? <FcLike /> : <FcLikePlaceholder />
                                         }
                                         
                                     </div>
