@@ -187,7 +187,7 @@ function Home() {
                     <div className='d-nav'>
                         <nav className='active-nav' onClick={viewFeed} id='home'>Home</nav>
                         <Link to='/addpost'><nav id='exp'>Explore</nav></Link>
-                        <nav id='notif'>Notification</nav>
+                        <nav id='notif' onClick={!user ? ()=>navigate('login') : ()=>navigate('/message')}>Notification</nav>
                         <nav id='display' onClick={displayThemes}>Display</nav>
                         <nav onClick={viewProfile} id='profile'>Profile</nav>
                             <div id='td-bg' style={{'backgroundColor': cthm === 'light' ? 'rgba(0,0,0,.2)' : 'rgba(255,255,255,.2)'}}>

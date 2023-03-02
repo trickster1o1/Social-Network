@@ -1,0 +1,45 @@
+.header-main {
+    text-align: center;
+} .msgs {
+    padding: .5em;
+    margin-bottom: .5em;
+    border-radius: 5em;
+    margin-right: .5em;
+} .msg-form {
+    padding: 1em;
+    border-bottom: 1px solid rgba(0,0,0,.2);
+    border-top: 1px solid rgba(0,0,0,.2);
+    margin-bottom: 1em;
+} .msg-form input {
+    width: 90%;
+    height: 5em;
+    border: none;
+    outline: none;
+} .msg-form > button {
+    border: none;
+    outline: none;
+    padding: .5em;
+    height: 5em;
+    background-color: rgba(205, 75, 150, 1);
+    color: white;
+} .msg-cont {
+    display: flex;
+    flex-direction: column;
+} .out {
+    align-self: flex-end;
+    background-color: rgba(205, 75, 150, 1);
+    color: white;
+} .in {
+    align-self: flex-start;
+    background-color: rgba(75, 205, 150, 1);
+    margin-left: .5em;
+} .s-btn {
+    width: fit-content;
+    border: none;
+    padding: 1em;
+} .msg-cont > span {
+    display: block;
+    margin-left: 1em;
+    font-size: 10pt;
+    opacity: .7;
+}

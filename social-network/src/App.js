@@ -9,7 +9,7 @@ import AddPost from './AddPost';
 import SetProfile from './SetProfile';
 import ReduxTrial from './redux-trial/ReduxTrial';
 import { useSelector } from 'react-redux';
-
+import Message from './chat';
 function App() {
   let theme = useSelector((state)=>state.theme.value);
   return (
@@ -20,7 +20,8 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/addpost" element={<AddPost />} />
           <Route path='/trial' element={<ReduxTrial />} />
-
+          <Route path='/message' element={<Message />} />
+          
           <Route path='/setprofile/:stat' element={<SetProfile />} />
 
           <Route path="/:page" element={<Home />} />
